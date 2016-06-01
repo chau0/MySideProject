@@ -18,10 +18,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import net.sf.jcarrierpigeon.WindowPosition;
-import net.sf.jtelegraph.Telegraph;
-import net.sf.jtelegraph.TelegraphQueue;
-import net.sf.jtelegraph.TelegraphType;
+//import net.sf.jcarrierpigeon.WindowPosition;
+//import net.sf.jtelegraph.Telegraph;
+//import net.sf.jtelegraph.TelegraphQueue;
+//import net.sf.jtelegraph.TelegraphType;
 
 public class BrainCrawler {
 	public static final String ALONE = "Alone";
@@ -66,12 +66,11 @@ public class BrainCrawler {
 	public static final String INSPIRATIONAL = "Inspirational";
 	public static final String INTELLIGENCE = "Intelligence";
 
-	public static final String[] TOPICS = { ALONE, AMAZING, ART, ATTITUDE, BEAUTY, BEST, BIRTHDAY, BRAINY, BUSINESS,
-			CHANCE, CHANGE, COMMUNICATION, COMPUTERS, COOL, COURAGE, DATING, DEATH, DESIGN, DREAMS, EDUCATION, EQUALITY,
-			EXPERIENCE, FAILURE, FAITH, FAMOUS, FEAR, FITNESS, FORGIVENESS, FREEDOM, FRIENDSHIP, FUNNY, FUTURE, GREAT,
-			HAPPINESS, HEALTH, HOPE, HUMOR, IMAGINATION, INDEPENDENCE, INSPIRATIONAL, INTELLIGENCE };
+	public static final String[] TOPICS = { ATTITUDE, COURAGE, DREAMS, FAILURE, FEAR, FRIENDSHIP, GREAT, HAPPINESS,
+			INSPIRATIONAL };
 
 	public static void main(String[] args) throws Exception {
+		NotificationBox notificationBox = new NotificationBox();
 		Thread runThread = new Thread(new Runnable() {
 
 			@Override
@@ -82,24 +81,29 @@ public class BrainCrawler {
 					String htmlContent = getText(web + "/quotes/topics.html");
 					// log(htmlContent);
 					Document doc = Jsoup.parse(htmlContent);
-//					Elements topicColumnElements = doc.select("div.bq_fl.content");
-//					Elements listTopicElements = topicColumnElements.get(random.nextInt(topicColumnElements.size()))
-//							.select("div.bqLn");
+					// Elements topicColumnElements =
+					// doc.select("div.bq_fl.content");
+					// Elements listTopicElements =
+					// topicColumnElements.get(random.nextInt(topicColumnElements.size()))
+					// .select("div.bqLn");
 					String topicName = TOPICS[random.nextInt(TOPICS.length)];
-//					Element topicElement = listTopicElements.get(topicID);
+					// Element topicElement = listTopicElements.get(topicID);
 					// listTopicElements.select(query)
-//					ArrayList<String> topicNames = new ArrayList<>();
-//					for (int i = 0, l = listTopicElements.size(); i < l; i++) {
-//						System.out.println("public static final String " + listTopicElements.get(i).text().toUpperCase()
-//								+ " = \"" + listTopicElements.get(i).text() + "\";");
-//						topicNames.add(listTopicElements.get(i).text());
-//					}
+					// ArrayList<String> topicNames = new ArrayList<>();
+					// for (int i = 0, l = listTopicElements.size(); i < l; i++)
+					// {
+					// System.out.println("public static final String " +
+					// listTopicElements.get(i).text().toUpperCase()
+					// + " = \"" + listTopicElements.get(i).text() + "\";");
+					// topicNames.add(listTopicElements.get(i).text());
+					// }
 					// System.out.println(topicNames.toString().toUpperCase());
 					System.out.println("topic id :" + topicName);
-//					log(topicElement.text());
-//					log(topicElement.select("a").attr("href"));
-//					String topicLink = web + topicElement.select("a").attr("href");
-				    String topicLink = web +"/quotes/topics/topic_"+topicName+".html";
+					// log(topicElement.text());
+					// log(topicElement.select("a").attr("href"));
+					// String topicLink = web +
+					// topicElement.select("a").attr("href");
+					String topicLink = web + "/quotes/topics/topic_" + topicName + ".html";
 					String topicHtmlContent = getText(topicLink);
 					Document topicDoc = Jsoup.parse(topicHtmlContent);
 					Elements navElements = topicDoc.select("div.row.paginationContainer").first().select("li");
@@ -116,10 +120,13 @@ public class BrainCrawler {
 					Element quoteElement = boxElements.get(random.nextInt(boxElements.size()));
 					String quote = quoteElement.select("span.bqQuoteLink").first().text();
 					String author = quoteElement.select("div.bq-aut").first().text();
-					Telegraph telegraph = new Telegraph(author, quote, TelegraphType.HOME, WindowPosition.BOTTOMRIGHT,
-							20000);
-					TelegraphQueue queue = new TelegraphQueue();
-					queue.add(telegraph);
+					// Telegraph telegraph = new Telegraph(author, quote,
+					// TelegraphType.HOME, WindowPosition.BOTTOMRIGHT,
+					// 20000);
+					// TelegraphQueue queue = new TelegraphQueue();
+					// queue.add(telegraph);
+
+					notificationBox.create(quote, author, 30000);
 					log(quote);
 					try {
 						Thread.sleep(30000);
