@@ -13,21 +13,22 @@ import java.awt.Toolkit;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JWindow;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 public class NotificationBox {
-	JFrame frame;
+	JWindow frame;
 	GridBagConstraints constraints;
 
 	public NotificationBox() {
-		frame = new JFrame();
+		frame = new JWindow();
 		frame.getRootPane().setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.GRAY));
-		frame.setUndecorated(true);
 		frame.setLayout(new GridBagLayout());
 		constraints = new GridBagConstraints();
 		frame.getContentPane().setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		frame.getContentPane().setBackground(new Color(255,255, 225));
 	}
 
 	public void create(String message, String header, long time) {
@@ -42,7 +43,7 @@ public class NotificationBox {
 
 		JLabel messageLabel = new JLabel();
 		messageLabel.setText("<html><p style=\"width:200px\">" + message + "</p></html>");
-		messageLabel.setFont(new Font("Serif", Font.TRUETYPE_FONT, 14));
+		messageLabel.setFont(new Font("Serif", Font.TRUETYPE_FONT, 20));
 		frame.add(messageLabel, constraints);
 
 		//
@@ -57,7 +58,6 @@ public class NotificationBox {
 		headingLabel.setForeground(Color.BLUE);
 		frame.add(headingLabel, constraints);
 
-		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.pack();
 		Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
