@@ -24,7 +24,7 @@ public class NotificationBox {
 	GridBagConstraints constraints;
 	private long time;
 	JLabel headingLabel;
-
+	JScrollPane scrollPane;
 	JTextArea messageLabel;
 
 	MouseAdapter mouseListener;
@@ -62,29 +62,6 @@ public class NotificationBox {
 	public void show(String message, int x, int y) {
 
 		messageLabel = new JTextArea(10, 20);
-		// messageLabel.setText("<html><p style=\"width:200px\">" + message +
-		// "</p></html>"
-		// + "<html><p style=\"width:200px\">" + message + "</p></html>" +
-		// "<html><p style=\"width:200px\">"
-		// + message + "</p></html>" + "<html><p style=\"width:200px\">" +
-		// message + "</p></html>"
-		// + "<html><p style=\"width:200px\">" + message + "</p></html>" +
-		// "<html><p style=\"width:200px\">"
-		// + message + "</p></html>" + "<html><p style=\"width:200px\">" +
-		// message + "</p></html>"
-		// + "<html><p style=\"width:200px\">" + message + "</p></html>" +
-		// "<html><p style=\"width:200px\">"
-		// + message + "</p></html>" + "<html><p style=\"width:200px\">" +
-		// message + "</p></html>"
-		// + "<html><p style=\"width:200px\">" + message + "</p></html>" +
-		// "<html><p style=\"width:200px\">"
-		// + message + "</p></html>" + "<html><p style=\"width:200px\">" +
-		// message
-		// + "</p></html><html><p style=\"width:200px\">" + message +
-		// "</p></html>"
-		// + "<html><p style=\"width:200px\">" + message + "</p></html>" + "" +
-		// "<html><p style=\"width:200px\">"
-		// + message + "</p></html>");
 		messageLabel.setText(message);
 		messageLabel.setLineWrap(true);
 		messageLabel.setBackground(new Color(255, 255, 225));
@@ -92,29 +69,47 @@ public class NotificationBox {
 		messageLabel.setEditable(true);
 		frame.add(messageLabel, constraints);
 
-		JScrollPane scrollPane = new JScrollPane(messageLabel);
+		scrollPane = new JScrollPane(messageLabel);
 		frame.add(scrollPane);
 		frame.setSize(400, 200);
 		messageLabel.addMouseListener(mouseListener);
 		messageLabel.addMouseMotionListener(mouseListener);
 
 		frame.setVisible(true);
-		Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
-		if (x + frame.getWidth() > scrSize.getWidth()) {
-			x = (int) (scrSize.getWidth() - frame.getWidth());
-		}
-		frame.setLocation(x, y);
-		frame.setAlwaysOnTop(true);
-		frame.setAlwaysOnTop(false);
-		frame.repaint();
+		setLocation(x, y);
+
 		System.out.println("show ----------");
 		// frame.addMouseMotionListener(mouseListener);
 		// frame.addMouseListener(mouseListener);
 
 	}
 
+	public void setLocation(int x, int y) {
+		Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
+		if (x + frame.getWidth() > scrSize.getWidth()) {
+			x = (int) (scrSize.getWidth() - frame.getWidth());
+		}
+		if (y + frame.getHeight() > scrSize.getHeight()) {
+			y = (int) (scrSize.getHeight() - frame.getHeight() - 30);
+		}
+		frame.setLocation(x, y);
+		frame.setAlwaysOnTop(true);
+		frame.setAlwaysOnTop(false);
+		frame.repaint();
+	}
+
 	public void setVisible(boolean isVisible) {
+		if (!isVisible) {
+			if (messageLabel != null) {
+				frame.remove(messageLabel);
+			}
+			if (scrollPane != null) {
+				frame.remove(scrollPane);
+			}
+			frame.repaint();
+		}
 		frame.setVisible(isVisible);
+
 	}
 
 	public int getX() {

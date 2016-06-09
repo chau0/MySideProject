@@ -67,9 +67,11 @@ public class QuickTranslator implements NativeKeyListener, NativeMouseListener {
 
 	private void showPopup() {
 		try {
+			notificationBox.setVisible(true);
+			notificationBox.setLocation(mouseX+30,mouseY+30);
 			String data = (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
-			notificationBox.show(data, mouseX, mouseY);
-			// System.out.println("data :" + data);
+			notificationBox.show(Translator.translate(data,"en","auto"), mouseX+30, mouseY+30);
+			System.out.println("data :" + data);
 		} catch (HeadlessException e1) {
 			e1.printStackTrace();
 		} catch (UnsupportedFlavorException e1) {
