@@ -63,6 +63,7 @@ public class NotificationBox {
 
 		messageLabel = new JTextArea(10, 20);
 		messageLabel.setText(message);
+		messageLabel.setWrapStyleWord(true);
 		messageLabel.setLineWrap(true);
 		messageLabel.setBackground(new Color(255, 255, 225));
 		messageLabel.setFont(new Font("Serif", Font.TRUETYPE_FONT, 15));
